@@ -147,6 +147,8 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('android.hardware.graphics.composer3-V3-ndk.so', 'android.hardware.graphics.composer3-V4-ndk.so'),
     'vendor/lib64/libsdmcore.so': blob_fixup()
         .add_needed('libbase.so'),
+    'vendor/usr/keylayout/gpio-keys.kl': blob_fixup()
+        .add_line_if_missing('key 735   ASSIST'),
 }  # fmt: skip
 
 module = ExtractUtilsModule(

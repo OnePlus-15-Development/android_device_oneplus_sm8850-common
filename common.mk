@@ -193,6 +193,7 @@ PRODUCT_COPY_FILES += \
 
 # Init
 PRODUCT_PACKAGES += \
+    charger_fstab.qcom \
     fstab.qcom \
     fstab.qcom.vendor_ramdisk \
     init.class_main.sh \

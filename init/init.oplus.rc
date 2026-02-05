@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2022-2025 The LineageOS Project
+# Copyright (C) 2022-2026 The LineageOS Project
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -10,9 +10,60 @@ on fs
     # Update touchpanel firmware in case we ship newer firmware in /odm
     write /proc/touchpanel/tp_fw_update 0
 
+on init
+    # Charger
+    chown system system /proc/charger/reserve_soc_debug
+    chown system system /proc/charger_critical_log
+    chown system system /proc/charger_cycle
+    chown system system /proc/fastchg_fw_update
+    chown system system /sys/class/oplus_chg/battery/bcc_current
+    chown system system /sys/class/oplus_chg/battery/bcc_exception
+    chown system system /sys/class/oplus_chg/battery/bcc_parms
+    chown system system /sys/class/oplus_chg/battery/bms_heat_temp_compensation
+    chown system system /sys/class/oplus_chg/battery/call_mode
+    chown system system /sys/class/oplus_chg/battery/cool_down
+    chown system system /sys/class/oplus_chg/battery/gsm_call_ongoing
+    chown system system /sys/class/oplus_chg/battery/mmi_charging_enable
+    chown system system /sys/class/oplus_chg/battery/ship_mode
+    chown system system /sys/class/oplus_chg/battery/short_c_hw_feature
+    chown system system /sys/class/oplus_chg/battery/short_c_hw_status
+    chown system system /sys/class/oplus_chg/battery/short_c_limit_chg
+    chown system system /sys/class/oplus_chg/battery/short_c_limit_rechg
+    chown system system /sys/class/oplus_chg/battery/short_ic_otp_status
+    chown system system /sys/class/oplus_chg/battery/short_ic_otp_value
+    chown system system /sys/class/oplus_chg/battery/short_ic_volt_thresh
+    chown system system /sys/class/oplus_chg/battery/soc_ajust
+    chown system system /sys/class/oplus_chg/common/bob_status
+    chown system system /sys/class/oplus_chg/common/bob_status_reg
+    chown system system /sys/class/oplus_chg/common/mutual_cmd
+    chown system system /sys/class/oplus_chg/common/super_endurance_mode_count
+    chown system system /sys/class/oplus_chg/common/super_endurance_mode_status
+    chown system system /sys/class/oplus_chg/common/time_zone
+    chown system system /sys/class/oplus_chg/usb/otg_switch
+    chown system system /sys/class/oplus_chg/usb/usb_status
+    chown system system /sys/class/oplus_chg/wireless/cp_current_now
+    chown system system /sys/class/oplus_chg/wireless/cp_voltage_now
+    chown system system /sys/class/oplus_chg/wireless/real_type
+    chown system system /sys/class/oplus_chg/wireless/tx_current_now
+    chown system system /sys/class/oplus_chg/wireless/tx_voltage_now
+    chown system system /sys/class/oplus_chg/wireless/wireless_mode
+    chown system system /sys/class/oplus_chg/wireless/wireless_type
+    chown system system /sys/class/power_supply/wireless/current_max
+    chown system system /sys/class/power_supply/wireless/current_now
+    chown system system /sys/class/power_supply/wireless/online
+    chown system system /sys/class/power_supply/wireless/present
+    chown system system /sys/class/power_supply/wireless/type
+    chown system system /sys/module/oplus_chg/parameters/gauge_dbg_tbat
+    chown system system /sys/module/oplus_gauge/parameters/gauge_dbg_tbat
+
+    # Osense
+    chown system system /proc/pressure/io
+    chmod 0664 /proc/pressure/io
+
 on boot
     # Display
-    chmod 0000 /sys/kernel/oplus_display/hbm
+    chown system system /dev/oplus_sync
+    chmod 0666 /dev/oplus_sync
 
 on post-fs-data
     # ADSP ramdump
@@ -24,45 +75,11 @@ on post-fs-data
     # Audio HAL feedback
     chown media media /proc/mm_fb
 
-    # Camera
-    mkdir /mnt/vendor/persist 0771 root system
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/dual_calibration/stereoParams.bin
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/front_dual_calibration/stereoParams.bin
-    chmod 0666 /mnt/vendor/persist/camera/dual_calibration/stereoParams.bin
-    chmod 0666 /mnt/vendor/persist/camera/front_dual_calibration/stereoParams.bin
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/spectrum_cali_data
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/spectrum_test_data
-    chmod 0666 /mnt/vendor/persist/camera/spectrum_cali_data
-    chmod 0666 /mnt/vendor/persist/camera/spectrum_test_data
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/spectrum_sn.json
-    chown cameraserver cameraserver /mnt/vendor/persist/camera/cm_tcs3449_*
-    chmod 0666 /mnt/vendor/persist/camera/spectrum_sn.json
-    chmod 0666 /mnt/vendor/persist/camera/cm_tcs3449_*
-    mkdir /data/system/camera_rus 0777 cameraserver  cameraserver
-    chown system system /sys/kernel/ois_control/dump_registers
-
 on property:ro.boot.prjname=*
     # Display
     setprop ro.separate.soft ${ro.boot.prjname}
 
 on property:sys.boot_completed=1
-    # Network
-    copy /vendor/etc/O_STX_platform_license.pfm /mnt/vendor/persist/data/pfm/licenses/O_STX_platform_license.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/O_STX_platform_license.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/O_STX_platform_license.pfm
-
-    copy /odm/etc/oem_stx_platform_license.pfm /mnt/vendor/persist/data/pfm/licenses/oem_stx_platform_license.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/oem_stx_platform_license.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/oem_stx_platform_license.pfm
-
-    copy /vendor/etc/O_TDD-Bypass_platform_license.pfm /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_platform_license.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_platform_license.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_platform_license.pfm
-
-    copy /vendor/etc/O_TDD-Bypass_SM7675_platform_license.pfm /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_SM7675_platform_license.pfm
-    chmod 0600 /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_SM7675_platform_license.pfm
-    chown system system /mnt/vendor/persist/data/pfm/licenses/O_TDD-Bypass_SM7675_platform_license.pfm
-
     # Widevine
     copy /vendor/etc/oplus_Widevine_licenses.pfm /mnt/vendor/persist/data/pfm/licenses/oplus_Widevine_licenses.pfm
     chmod 0600 /mnt/vendor/persist/data/pfm/licenses/oplus_Widevine_licenses.pfm

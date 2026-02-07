@@ -58,8 +58,13 @@ TARGET_BOOTLOADER_BOARD_NAME := canoe
 
 # DTB / DTBO
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+ifeq ($(USE_PREBUILT_KERNEL), true)
+BOARD_INCLUDE_RECOVERY_DTBO := true
+BOARD_KERNEL_SEPARATED_DTBO := true
+else
 BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 TARGET_NEEDS_DTBOIMAGE := true
+endif
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/config.fs
@@ -85,6 +90,7 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
 
 TARGET_KERNEL_SOURCE := kernel/oneplus/sm8850
+ifneq ($(USE_PREBUILT_KERNEL), true)
 TARGET_KERNEL_ADDITIONAL_FLAGS := CONFIG_OPLUS_DEVICE_DTBS=y
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
@@ -153,6 +159,7 @@ TARGET_KERNEL_EXT_MODULES += \
     oplus/secure/common/bsp/drivers/oplus_secure_common \
     oplus/sensor/kernel/oplus_consumer_ir:kbuild \
     oplus/sensor/kernel/qcom/sensor:kbuild
+endif
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true

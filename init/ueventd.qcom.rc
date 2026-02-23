@@ -25,9 +25,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #
-# Changes from Qualcomm Technologies, Inc. are provided under the following license:
-# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
+# Changes from Qualcomm Innovation Center are provided under the following license:
+# Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted (subject to the limitations in the
@@ -66,9 +65,9 @@
 # ifndef OPLUS_FEATURE_WIFI_BDF
 # fangzhijun@CONNECTIVITY.WIFI.HARDWARE.BDF.5719240 , 2023/06/13,
 # Modify for: multi projects using different bdf, adding persist into firmware_directories
-# firmware_directories /vendor/firmware_mnt/image/ /vendor/soccp_firmware/image/ /vendor/dcp_firmware/image/
+# firmware_directories /vendor/firmware_mnt/image/ /vendor/soccp_firmware/image/
 # else /* OPLUS_FEATURE_WIFI_BDF */
-firmware_directories /mnt/vendor/persist/copy/ /odm/etc/wifi/ /mnt/vendor/persist/ /vendor/firmware_mnt/image/ /vendor/soccp_firmware/image/ /vendor/dcp_firmware/image/
+firmware_directories /mnt/vendor/persist/copy/ /odm/etc/wifi/ /mnt/vendor/persist/ /vendor/firmware_mnt/image/ /vendor/soccp_firmware/image/
 # endif /* OPLUS_FEATURE_WIFI_BDF */
 
 subsystem dma_heap
@@ -119,9 +118,6 @@ subsystem mem_buf_vm
 
 #permissions for UFS RPMB BSG device node
 /dev/0:0:0:49476          0600   system     system
-
-#permissions for eMMC RPMB device node
-/dev/mmcblk0rpmb          0600   system     system
 
 #permissions for GPT listener on LUN4
 /dev/0:0:0:4              0600   system     root
@@ -405,7 +401,6 @@ subsystem mem_buf_vm
 
 # eSE permissions
 /dev/st54spi_gpio         0660   system     system
-/dev/stsafe320_gpio       0660   system     system
 
 # UIO devices
 /dev/uio0                 0660   system     system
@@ -452,7 +447,6 @@ subsystem mem_buf_vm
 
 # This is temporary while using SD card for initial bring-up
 /dev/block/platform/soc/8804000.sdhci/by-name/frp       0600   system     system
-/dev/block/platform/soc/8844000.sdhci/by-name/frp       0600   system     system
 
 # Kmsg device
 /dev/kmsg                                               0620   root       system
@@ -511,9 +505,7 @@ subsystem mem_buf_vm
 /sys/bus/usb/devices/usb*   authorized                 0660  system  usb
 
 #USB mode setting
-/sys/bus/platform/devices/a400000.ssusb    mode        0660  system  usb
 /sys/bus/platform/devices/a600000.ssusb    mode        0660  system  usb
-/sys/bus/platform/devices/4e00000.ssusb    mode        0660  system  usb
 
 #Memory Offline
 /sys/devices/system/memory/memory* state    0660 system system
@@ -553,8 +545,8 @@ subsystem mem_buf_vm
 /sys/class/graphics/fb0     mode                     0664    system  graphics
 /sys/class/graphics/fb0     msm_cmd_autorefresh_en   0664    system  graphics
 
-/sys/devices/platform/soc/ae00000.qcom,mdss_mdp power/control 0664 system graphics
 /sys/devices/platform/soc/9800000.qcom,mdss_mdp power/control 0664 system graphics
+/sys/devices/platform/soc/ae00000.qcom,mdss_mdp power/control 0664 system graphics
 
 #asm330 sensor
 #common sensors files
@@ -627,16 +619,12 @@ subsystem mem_buf_vm
 
 # Q2SPI UWB device
 /dev/q2spiuwb    0660    uwb    uwb
+# SPI UWB device
+/dev/spiuwb    0660    uwb    uwb
 
 # RemoteProc attributes
 /sys/class/remoteproc/remoteproc*   state     0660    root  system
 /sys/class/remoteproc/remoteproc*   recovery  0660    root  system
-
-# SPI UWB device
-/dev/spiuwb    0660    uwb    uwb
-
-#power_state device node
-/dev/power_state           0660   system      system
 
 # IPA Events
 /dev/ipa_events         0660   radio      radio

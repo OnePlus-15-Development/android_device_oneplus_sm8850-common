@@ -79,7 +79,7 @@ persist.vendor.data.mutualex.mode=disabled
 # Radio
 persist.oplus.qspa.modem=enabled
 persist.radio.hvolte.enable=1
-persist.vendor.radio.poweron_opt=1
+persist.vendor.radio.poweron_opt=0
 ril.subscription.types=NV,RUIM
 ro.telephony.sim_slots.count=2
 telephony.active_modems.max_count=2

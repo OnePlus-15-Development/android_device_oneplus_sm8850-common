@@ -382,10 +382,6 @@ PRODUCT_PACKAGES += \
     ims_ext_common.xml \
     nrmodeswitcher \
     qcrilNrDb_vendor \
-    qti-telephony-hidl-wrapper \
-    qti-telephony-hidl-wrapper-prd \
-    qti_telephony_hidl_wrapper.xml \
-    qti_telephony_hidl_wrapper_prd.xml \
     qti-telephony-utils \
     qti-telephony-utils-prd \
     qti_telephony_utils.xml \
